@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .font-serif {
+            font-family: serif;
+        }
+        .logo {
+            border-radius: 50%;
+            height: 64px;
+            width: 64px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100">
+
+    <!-- Header -->
+    <header class="bg-yellow-500 h-45 flex items-center justify-between px-8 shadow-md">
+        <div class="flex items-center">
+            <img src="./logo.jpg" alt="Logo" class="h-16 rounded-full logo">
+            <h1 class="font-serif p-6 text-white text-4xl text-center">Warehouse Admin-Admin</h1>
+        </div>
+     
+            <div>
+                <div id="loggedEmployee"></div>
+                <button id="logoutButton" class="ml-4 py-1 px-3 bg-red-600 text-white rounded">Logout</button>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <div class="flex flex-grow">
+        <!-- Sidebar -->
+        <aside class="bg-gray-800 text-white w-64 py-4 px-3">
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="./operationhome.html" class="flex items-center text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600">
+                            <span class="material-icons">arrow_back</span> Back to Admin Home
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main section -->
+        <main class="flex-grow p-8">
+            <h2 class="text-2xl font-bold text-gray-700 mb-4">Edit Employee</h2>
+            <input type="text" id="searchEmployee" placeholder="Search Employee" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4">
+
+            <ul id="employeeList" class="space-y-4">
+                <!-- List of employees will be dynamically populated here -->
+            </ul>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-4 text-center mt-auto">
+        <p>&copy; 2024 Warehouse Admin. All rights reserved.</p>
+    </footer>
+
+    <!-- Include jQuery and Firebase script files -->
+     <!-- <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+    <script src="scripts.js"></script> -->
+     <!-- <script>
+        // Search for employees
+        $('#searchEmployee').on('input', function() {
+            const query = $(this).val().trim();
+            if (query) {
+                db.collection('employees').where('firstName', '>=', query).where('firstName', '<=', query + '\uf8ff').get()
+                    .then(querySnapshot => {
+                        const employees = [];
+                        querySnapshot.forEach(doc => {
+                            const employee = doc.data();
+                            employee.id = doc.id;
+                            employees.push(employee);
+                        });
+                        populateEmployeeList(employees);
+                    })
+                    .catch(error => {
+                        console.error("Error searching employees: ", error);
+                    });
+            } else {
+                $('#employeeList').empty();
+            }
+        });
+
+        // Populate the list of employees
+        function populateEmployeeList(employees) {
+            $('#employeeList').empty();
+            employees.forEach(employee => {
+                const listItem = $('<li class="border border-gray-300 p-4 rounded shadow-sm"></li>');
+                listItem.append(`<p><strong>Name:</strong> ${employee.firstName} ${employee.lastName}</p>`);
+                listItem.append(`<p><strong>Email:</strong> ${employee.email}</p>`);
+                listItem.append(`<p><strong>Phone:</strong> ${employee.phoneNumber}</p>`);
+                listItem.append(`<p><strong>Job Title:</strong> ${employee.jobTitle}</p>`);
+                listItem.append(`<button class="bg-yellow-700 text-white py-1 px-3 rounded shadow hover:bg-yellow-800" onclick="editEmployee('${employee.id}')">Edit</button>`);
+                $('#employeeList').append(listItem);
+            });
+        }
+
+        // Edit employee details
+        function editEmployee(employeeId) {
+            db.collection('employees').doc(employeeId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const employeeData = doc.data();
+                        const editForm = `
+                            <form id="editEmployeeForm" class="mt-4">
+                                <fieldset class="border border-gray-300 p-4 rounded mb-4">
+                                    <legend class="text-lg font-semibold">Edit Employee</legend>
+                                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                        <div>
+                                            <label for="editFirstName" class="block text-gray-700">First Name</label>
+                                            <input type="text" id="editFirstName" name="editFirstName" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" value="${employeeData.firstName}" required>
+                                        </div>
+                                        <div>
+                                            <label for="editLastName" class="block text-gray-700">Last Name</label>
+                                            <input type="text" id="editLastName" name="editLastName" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" value="${employeeData.lastName}" required>
+                                        </div>
+                                        <div>
+                                            <label for="editEmail" class="block text-gray-700">Email</label>
+                                            <input type="email" id="editEmail" name="editEmail" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" value="${employeeData.email}" required>
+                                        </div>
+                                        <div>
+                                            <label for="editPhoneNumber" class="block text-gray-700">Phone Number</label>
+                                            <input type="tel" id="editPhoneNumber" name="editPhoneNumber" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" value="${employeeData.phoneNumber}" required>
+                                        </div>
+                                        <div>
+                                            <label for="editJobTitle" class="block text-gray-700">Job Title</label>
+                                            <select id="editJobTitle" name="editJobTitle" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                                <option value="Manager" ${employeeData.jobTitle === "Manager" ? "selected" : ""}>Manager</option>
+                                                <option value="Operator" ${employeeData.jobTitle === "Operator" ? "selected" : ""}>Operator</option>
+                                                <option value="Sales Person" ${employeeData.jobTitle === "Sales Person" ? "selected" : ""}>Sales Person</option>
+                                                <option value="Marketing Person" ${employeeData.jobTitle === "Marketing Person" ? "selected" : ""}>Marketing Person</option>
+                                                <option value="Project Manager" ${employeeData.jobTitle === "Project Manager" ? "selected" : ""}>Project Manager</option>
+                                                <option value="Technology and Devs" ${employeeData.jobTitle === "Technology and Devs" ? "selected" : ""}>Technology and Devs</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label for="editState" class="block text-gray-700">State</label>
+                                            <select id="editState" name="editState" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                                <option value="Active" ${employeeData.state === "Active" ? "selected" : ""}>Active</option>
+                                                <option value="Inactive" ${employeeData.state === "Inactive" ? "selected" : ""}>Inactive</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label for="editStartDate" class="block text-gray-700">Start Date</label>
+                                            <input type="date" id="editStartDate" name="editStartDate" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" value="${employeeData.startDate}">
+                                        </div>
+                                        <div>
+                                            <label for="editEndDate" class="block text-gray-700">End Date</label>
+                                            <input type="date" id="editEndDate" name="editEndDate" class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" value="${employeeData.endDate}">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="bg-yellow-700 text-white py-2 px-4 rounded shadow hover:bg-yellow-800 mt-4">Update Employee</button>
+                                </fieldset>
+                            </form>
+                        `;
+
+                        $('#employeeList').html(editForm);
+
+                        // Handle the form submission for editing employee
+                        $('#editEmployeeForm').on('submit', function(e) {
+                            e.preventDefault();
+
+                            const updatedEmployeeData = {
+                                firstName: $('#editFirstName').val(),
+                                lastName: $('#editLastName').val(),
+                                email: $('#editEmail').val(),
+                                phoneNumber: $('#editPhoneNumber').val(),
+                                jobTitle: $('#editJobTitle').val(),
+                                state: $('#editState').val(),
+                                startDate: $('#editStartDate').val(),
+                                endDate: $('#editEndDate').val()
+                            };
+
+                            db.collection('employees').doc(employeeId).update(updatedEmployeeData)
+                                .then(() => {
+                                    alert("Employee updated successfully!");
+                                    window.location.href = 'editemployees.html'; // Reload the page
+                                })
+                                .catch(error => {
+                                    console.error("Error updating employee: ", error);
+                                });
+                        });
+
+                    } else {
+                        alert("No such employee found!");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error getting employee details: ", error);
+                });
+        }
+    </script> -->
+</body>
+</html>

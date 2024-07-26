@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Employee</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .font-serif {
+        font-family: serif;
+      }
+      .logo {
+        border-radius: 50%;
+        height: 64px;
+        width: 64px;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-screen bg-gray-100">
+    <!-- Header -->
+    <header
+      class="bg-yellow-500 h-45 flex items-center justify-between px-8 shadow-md"
+    >
+      <div class="flex items-center">
+        <img src="./logo.jpg" alt="Logo" class="h-16 rounded-full logo" />
+        <h1 class="font-serif p-6 text-white text-4xl text-center">
+          Warehouse Admin-Admin
+        </h1>
+      </div>
+      <div>
+        <div id="loggedEmployee"></div>
+        <button
+          id="logoutButton"
+          class="ml-4 py-1 px-3 bg-red-600 text-white rounded"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+    <!-- Main Content -->
+    <div class="flex flex-grow">
+      <!-- Sidebar -->
+      <aside class="bg-gray-800 text-white w-64 py-4 px-3">
+        <nav>
+          <ul>
+            <li class="mb-2">
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                Admin
+              </button>
+              <ul class="pl-4 mt-2 space-y-2 submenu hidden">
+                <li>
+                  <a
+                    href="./newemployee.html"
+                    class="block py-1 px-2 bg-gray-700 rounded hover:bg-gray-600"
+                    >New employee</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="/editstatusemployee.html"
+                    class="block py-1 px-2 bg-gray-700 rounded hover:bg-gray-600"
+                    >Edit and status</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="mb-2">
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                Marketing
+              </button>
+            </li>
+            <li class="mb-2">
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                Sales
+              </button>
+            </li>
+            <li class="mb-2">
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                Accounting
+              </button>
+            </li>
+            <li class="mb-2">
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                <a href="./operationhome.html">Operations</a>
+              </button>
+              <ul class="pl-4 mt-2 space-y-2 submenu hidden">
+                <li>
+                  <a
+                    href="./operations.html"
+                    class="block py-1 px-2 bg-gray-700 rounded hover:bg-gray-600"
+                    >New vender</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./showvender.html"
+                    class="block py-1 px-2 bg-gray-700 rounded hover:bg-gray-600"
+                    >Show venders</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="./productnew.html"
+                    class="block py-1 px-2 bg-gray-700 rounded hover:bg-gray-600"
+                    >Add product</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="mb-2">
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                Logs
+              </button>
+            </li>
+            <li>
+              <button
+                class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
+              >
+                Developments
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main section -->
+      <main class="flex-grow p-8">
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Add New Employee</h2>
+        <form id="employeeForm" method="post" action="">
+          <fieldset class="border border-gray-300 p-4 rounded mb-4">
+            <legend class="text-lg font-semibold">New Employee</legend>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label for="firstName" class="block text-gray-700"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  required
+                />
+              </div>
+              <div>
+                <label for="lastName" class="block text-gray-700"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  required
+                />
+              </div>
+              <div>
+                <label for="email" class="block text-gray-700">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  required
+                />
+              </div>
+              <div>
+                <label for="phoneNumber" class="block text-gray-700"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  required
+                />
+              </div>
+              <div>
+                <label for="jobTitle" class="block text-gray-700"
+                  >Job Title</label
+                >
+                <select
+                  id="jobTitle"
+                  name="jobTitle"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                >
+                  <option value="Manager">Manager</option>
+                  <option value="Operator">Operator</option>
+                  <option value="Sales Person">Sales Person</option>
+                  <option value="Marketing Person">Marketing Person</option>
+                  <option value="Project Manager">Project Manager</option>
+                  <option value="Technology and Devs">
+                    Technology and Devs
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label for="state" class="block text-gray-700">State</label>
+                <select
+                  id="state"
+                  name="state"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
+              </div>
+              <div>
+                <label for="startDate" class="block text-gray-700"
+                  >Start Date</label
+                >
+                <input
+                  type="date"
+                  id="startDate"
+                  name="startDate"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                />
+              </div>
+              <div>
+                <label for="image" class="block text-gray-700"
+                  >Upload Image</label
+                >
+                <input
+                  type="file"
+                  id="profileImage"
+                  name="image"
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                />
+              </div>
+              <div>
+                <label for="password" class="block text-gray-700"
+                  >Password</label
+                >
+                <input
+                  type="text"
+                  id="password"
+                  name="password"
+                  value=""
+                  class="w-full py-2 px-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  required
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="border border-gray-300 p-4 rounded mb-4">
+            <legend class="text-lg font-semibold">Authorization</legend>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label class="block text-gray-700">Departments</label>
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="adminAccess"
+                    name="department"
+                    value="Admin"
+                    class="mr-2"
+                  />
+                  <label for="adminAccess" class="text-gray-700">Admin</label>
+                </div>
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="accountingAccess"
+                    name="department"
+                    value="Accounting"
+                    class="mr-2"
+                  />
+                  <label for="accountingAccess" class="text-gray-700"
+                    >Accounting</label
+                  >
+                </div>
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="marketingAccess"
+                    name="department"
+                    value="Marketing"
+                    class="mr-2"
+                  />
+                  <label for="marketingAccess" class="text-gray-700"
+                    >Marketing</label
+                  >
+                </div>
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="salesAccess"
+                    name="department"
+                    value="Sales"
+                    class="mr-2"
+                  />
+                  <label for="salesAccess" class="text-gray-700">Sales</label>
+                </div>
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="operationsAccess"
+                    name="department"
+                    value="Operations"
+                    class="mr-2"
+                  />
+                  <label for="operationsAccess" class="text-gray-700"
+                    >Operations</label
+                  >
+                </div>
+                <div class="flex items-center pl-6">
+                  <input
+                    type="checkbox"
+                    id="uploadProductsAccess"
+                    name="department"
+                    value="Upload products"
+                    class="mr-2"
+                  />
+                  <label for="uploadProductsAccess" class="text-gray-700"
+                    >Upload products</label
+                  >
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <button
+            type="submit"
+            class="bg-yellow-700 text-white py-2 px-4 rounded shadow hover:bg-yellow-800"
+          >
+            Add Employee
+          </button>
+        </form>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-4 text-center mt-auto">
+      <p>&copy; 2024 Warehouse Admin. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="./newEmployee.js"></script>
+  </body>
+</html>
+
+<!-- <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script> -->
+<!-- <script>
+    $(document).ready(function() {
+        const loggedInUser = getSession();
+        if (loggedInUser) {
+            $('#loggedEmployee').text(`Logged Employee: ${loggedInUser.firstName} ${loggedInUser.lastName} - ${loggedInUser.jobTitle}`);
+        } else {
+            window.location.href = 'home.html'; // Redirect to login if no session
+        }
+
+        $('#logoutButton').on('click', function() {
+            sessionStorage.removeItem('loggedInUser');
+            window.location.href = 'home.html';
+        });
+
+        // Set a simple password on load
+        $('#password').val(generatePassword());
+    });
+
+    $('#employeeForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const employeeData = {
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
+            email: $('#email').val(),
+            phoneNumber: $('#phoneNumber').val(),
+            jobTitle: $('#jobTitle').val(),
+            state: $('#state').val(),
+            startDate: $('#startDate').val(),
+            password: $('#password').val(),
+            image: $('#image')[0].files[0],
+            isFirstTimeLogin: "Yes",
+            authorization: []
+        };
+
+        $('input[name="department"]:checked').each(function() {
+            employeeData.authorization.push($(this).val());
+        });
+
+        // Save the employee data to Firestore
+        db.collection('employees').add(employeeData)
+            .then((docRef) => {
+                alert("Employee added successfully!");
+            })
+            .catch((error) => {
+                console.error("Error adding employee: ", error);
+            });
+    });
+</script> -->
