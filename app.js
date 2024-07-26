@@ -37,6 +37,16 @@ function showMessage(message, divId) {
   }, 5000);
 }
 
+//check if exist user is login
+document.addEventListener("DOMContentLoaded", checkedUser);
+function checkedUser() {
+  const isUserLogin = localStorage.getItem("loggedInUserId");
+  if (isUserLogin) {
+    console.log("User is logged in");
+    window.location.href = "./newemployees.html";
+  }
+}
+
 // Reset Inputs function
 function resetInputs() {
   document.getElementById("email").value = "";
@@ -75,7 +85,6 @@ document.getElementById("btnLogin").addEventListener("click", (e) => {
         }
         resetInputs();
       } else {
-        console.error("No such document!");
         showMessage("User data not found!", "signMessage");
       }
     })

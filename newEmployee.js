@@ -47,6 +47,15 @@ function resetInputs() {
     (el) => (el.checked = false)
   );
 }
+
+document.addEventListener("DOMContentLoaded", checkedUser);
+function checkedUser() {
+  const isUserLogin = localStorage.getItem("loggedInUserId");
+  if (!isUserLogin) {
+    window.location.href = "./index.html";
+  }
+}
+
 //handle image
 async function uploadImage(file) {
   const storageRef = ref(storage, `images/${file.name}`);
@@ -55,7 +64,6 @@ async function uploadImage(file) {
     const downloadURL = await getDownloadURL(snapshot.ref);
     return downloadURL;
   } catch (error) {
-    console.error("Error uploading image", error);
     throw error;
   }
 }
@@ -74,12 +82,9 @@ document
     const startDate = document.getElementById("startDate").value;
     const password = document.getElementById("password").value;
     const role = "employee";
-
     const departments = Array.from(
       document.querySelectorAll("input[name='department']:checked")
     ).map((el) => el.value);
-
-    // Get file input and upload image
     const fileInput = document.getElementById("profileImage");
     const file = fileInput.files[0];
     let imageURL = "";
@@ -91,7 +96,6 @@ document
         return;
       }
     }
-
     try {
       const newEmployee = await createUserWithEmailAndPassword(
         auth,
@@ -99,7 +103,6 @@ document
         password
       );
       const employee = newEmployee.user;
-
       await setDoc(doc(db, "employees", employee.uid), {
         firstName,
         lastName,
@@ -120,3 +123,10 @@ document
       console.error("Error adding employee", error);
     }
   });
+
+//logout handler
+document.getElementById("logoutButton").addEventListener("click", logOutUser);
+function logOutUser() {
+  localStorage.removeItem("loggedInUserId");
+  checkedUser();
+}
