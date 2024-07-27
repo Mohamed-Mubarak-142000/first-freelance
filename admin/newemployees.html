@@ -47,11 +47,11 @@
       <aside class="bg-gray-800 text-white w-64 py-4 px-3">
         <nav>
           <ul>
-            <li class="mb-2">
+            <li class="mb-2" id="adminItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                Admin
+                <a href="../admin/newemployees.html"> Admin Panel </a>
               </button>
               <ul class="pl-4 mt-2 space-y-2 submenu hidden">
                 <li>
@@ -70,34 +70,38 @@
                 </li>
               </ul>
             </li>
-            <li class="mb-2">
+
+            <li class="mb-2" id="marketingItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                Marketing
+                <a href="../marketing/marketing.html"> Marketing </a>
               </button>
             </li>
-            <li class="mb-2">
+
+            <li class="mb-2" id="salesItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                Sales
+                <a href="../sales/sales.html"> Sales </a>
               </button>
             </li>
-            <li class="mb-2">
+
+            <li class="mb-2" id="accoutingItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                Accounting
+                <a href="../accountong/accounting.html"> Accounting </a>
               </button>
             </li>
-            <li class="mb-2">
+
+            <li class="mb-2" id="operationsItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                <a href="./operationhome.html">Operations</a>
+                <a href="../operations/operations.html">Operations</a>
               </button>
-              <ul class="pl-4 mt-2 space-y-2 submenu hidden">
+              <!-- <ul class="pl-4 mt-2 space-y-2 submenu hidden">
                 <li>
                   <a
                     href="./operations.html"
@@ -119,20 +123,22 @@
                     >Add product</a
                   >
                 </li>
-              </ul>
+              </ul> -->
             </li>
-            <li class="mb-2">
+
+            <li class="mb-2" id="logsItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                Logs
+                <a href="../logs/logs.html"> Logs </a>
               </button>
             </li>
-            <li>
+
+            <li id="developmentItem">
               <button
                 class="w-full text-left py-2 px-4 bg-gray-700 rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600 toggle-submenu"
               >
-                Developments
+                <a href="../developments/developments.html"> Developments </a>
               </button>
             </li>
           </ul>
@@ -141,7 +147,17 @@
 
       <!-- Main section -->
       <main class="flex-grow p-8">
-        <h2 class="text-2xl font-bold text-gray-700 mb-4">Add New Employee</h2>
+        <div class="flex items-center justify-between my-2">
+          <h2 class="text-2xl font-bold text-gray-700 mb-4">
+            Add New Employee
+          </h2>
+          <a
+            href="./editEmployee.html"
+            class="text-center font-semibold text-white w-[150px] py-2 px-5 bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:bg-gray-600"
+          >
+            Show Employees
+          </a>
+        </div>
         <form id="employeeForm" method="post" action="">
           <fieldset class="border border-gray-300 p-4 rounded mb-4">
             <legend class="text-lg font-semibold">New Employee</legend>

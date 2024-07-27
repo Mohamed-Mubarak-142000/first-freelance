@@ -9,12 +9,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/fireba
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import {
   getFirestore,
   setDoc,
   doc,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+import { fetchEmployees } from "./editEmployee.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,9 +31,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
-const storage = getStorage();
+const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 function resetInputs() {
   document.getElementById("firstName").value = "";
@@ -48,14 +51,6 @@ function resetInputs() {
   );
 }
 
-document.addEventListener("DOMContentLoaded", checkedUser);
-function checkedUser() {
-  const isUserLogin = localStorage.getItem("loggedInUserId");
-  if (!isUserLogin) {
-    window.location.href = "./index.html";
-  }
-}
-
 //handle image
 async function uploadImage(file) {
   const storageRef = ref(storage, `images/${file.name}`);
@@ -67,7 +62,6 @@ async function uploadImage(file) {
     throw error;
   }
 }
-
 // Employee form submit handler
 document
   .getElementById("employeeForm")
@@ -81,7 +75,8 @@ document
     const state = document.getElementById("state").value;
     const startDate = document.getElementById("startDate").value;
     const password = document.getElementById("password").value;
-    const role = "employee";
+    const passwordUpdated = false;
+
     const departments = Array.from(
       document.querySelectorAll("input[name='department']:checked")
     ).map((el) => el.value);
@@ -113,7 +108,7 @@ document
         startDate,
         departments,
         uid: employee.uid,
-        role,
+        passwordUpdated,
         imageURL,
       });
 
@@ -125,8 +120,63 @@ document
   });
 
 //logout handler
-document.getElementById("logoutButton").addEventListener("click", logOutUser);
-function logOutUser() {
-  localStorage.removeItem("loggedInUserId");
-  checkedUser();
-}
+document.getElementById("logoutButton").addEventListener("click", () => {
+  signOut(auth)
+    .then(() => {
+      localStorage.removeItem("loggedInUserId");
+      window.location.replace("../auth/index.html");
+      console.log("logout");
+    })
+    .catch((error) => {
+      console.error("Error logging out", error);
+    });
+});
+
+// Check if a user is logged in
+document.addEventListener("DOMContentLoaded", () => {
+  const departmentItems = {
+    Admin: document.getElementById("adminItem"),
+    Marketing: document.getElementById("marketingItem"),
+    Sales: document.getElementById("salesItem"),
+    Accounting: document.getElementById("accoutingItem"),
+    Operations: document.getElementById("operationsItem"),
+    Logs: document.getElementById("logsItem"),
+    Development: document.getElementById("developmentItem"),
+  };
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      await fetchEmployees();
+      const userDocRef = doc(db, "employees", user.uid);
+      const docSnap = await getDoc(userDocRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        console.log("User data:", userData.departments);
+
+        // Check for Admin role first
+        if (userData.departments.includes("Admin")) {
+          Object.values(departmentItems).forEach((item) => {
+            if (item) item.style.display = "block";
+          });
+          console.log("ADMIN - All items displayed");
+        } else {
+          // Display specific department items
+          if (userData.departments) {
+            userData.departments.forEach((department) => {
+              const item = departmentItems[department];
+              if (item) {
+                item.style.display = "block";
+                console.log(`${department} - Item displayed`);
+              }
+            });
+          }
+        }
+      } else {
+        console.log("User data not found!");
+      }
+    } else {
+      window.location.href = "../auth/index.html";
+    }
+  });
+});
