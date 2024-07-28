@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("User data not found!");
       }
     } else {
-      window.location.href = "../auth/index.html";
+      window.location.href = "auth/index.html";
     }
   });
 });
@@ -100,7 +100,7 @@ document.getElementById("logoutButton").addEventListener("click", () => {
   signOut(auth)
     .then(() => {
       localStorage.removeItem("loggedInUserId");
-      window.location.href = "../auth/index.html";
+      window.location.href = "auth/index.html";
     })
     .catch((error) => {
       console.error("Error logging out", error);
